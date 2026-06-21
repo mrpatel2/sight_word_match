@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/dolch_words.dart';
+import 'word_match_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -38,7 +39,14 @@ class HomeScreen extends StatelessWidget {
               return _LevelCard(
                 level: level,
                 color: color,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => WordMatchScreen(level: level),
+                    ),
+                  );
+                },
               );
             },
           ),
