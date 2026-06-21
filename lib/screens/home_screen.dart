@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: ListView.separated(
             itemCount: levels.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 16),
+            separatorBuilder: (_, _) => const SizedBox(height: 16),
             itemBuilder: (context, index) {
               final level = levels[index];
               final color = _levelColors[index % _levelColors.length];
