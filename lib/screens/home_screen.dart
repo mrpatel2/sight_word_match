@@ -4,6 +4,14 @@ import '../data/dolch_words.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  static const List<Color> _levelColors = [
+    Color(0xFFFF6B6B), // Pre-Primer - red
+    Color(0xFFFFA94D), // Primer - orange
+    Color(0xFFFFD43B), // 1st Grade - yellow
+    Color(0xFF69DB7C), // 2nd Grade - green
+    Color(0xFF4DABF7), // 3rd Grade - blue
+  ];
+
   @override
   Widget build(BuildContext context) {
     final levels = DolchWords.levels;
@@ -26,16 +34,50 @@ class HomeScreen extends StatelessWidget {
             separatorBuilder: (_, __) => const SizedBox(height: 16),
             itemBuilder: (context, index) {
               final level = levels[index];
-              return Container(
-                height: 90,
-                alignment: Alignment.center,
-                color: Colors.grey[300],
-                child: Text(
-                  level,
-                  style: const TextStyle(fontSize: 22),
-                ),
+              final color = _levelColors[index % _levelColors.length];
+              return _LevelCard(
+                level: level,
+                color: color,
+                onTap: () {},
               );
             },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LevelCard extends StatelessWidget {
+  final String level;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _LevelCard({
+    required this.level,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: color,
+      borderRadius: BorderRadius.circular(20),
+      elevation: 4,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: onTap,
+        child: Container(
+          height: 90,
+          alignment: Alignment.center,
+          child: Text(
+            level,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
