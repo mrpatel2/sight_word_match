@@ -45,6 +45,11 @@ class _StatsScreenState extends State<StatsScreen> {
             );
           }
 
+          final byGame = <String, List<GameResult>>{};
+          for (final r in results) {
+            byGame.putIfAbsent(r.gameType, () => []).add(r);
+          }
+
           final totalRounds = results.length;
           final combinedScore =
               results.fold<int>(0, (sum, r) => sum + r.score) / totalRounds;
@@ -86,6 +91,83 @@ class _StatsScreenState extends State<StatsScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 24),
+                const Text(
+                  'By Game',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+                ...byGame.entries.map((entry) {
+                  final gameResults = entry.value;
+                  final gameAverage =
+                      gameResults.fold<int>(0, (sum, r) => sum + r.score) /
+                          gameResults.length;
+
+                  final byLevel = <String, List<GameResult>>{};
+                  for (final r in gameResults) {
+                    byLevel.putIfAbsent(r.level, () => []).add(r);
+                  }
+
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  entry.key,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text('${gameResults.length} rounds played'),
+                              ],
+                            ),
+                            Text(
+                              gameAverage.round().toString(),
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF845EF7),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Divider(height: 20),
+                        ...byLevel.entries.map((levelEntry) {
+                          final levelResults = levelEntry.value;
+                          final levelAverage = levelResults.fold<int>(
+                                0,
+                                (sum, r) => sum + r.score,
+                              ) /
+                              levelResults.length;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(levelEntry.key),
+                                Text('${levelAverage.round()}'),
+                              ],
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  );
+                }),
               ],
             ),
           );
