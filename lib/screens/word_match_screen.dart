@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/dolch_words.dart';
 import '../models/game_result.dart';
 import '../services/score_storage_service.dart';
+import 'results_screen.dart';
 
 class WordMatchScreen extends StatefulWidget {
   final String level;
@@ -81,12 +82,23 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
     final totalPairs = _cards.length ~/ 2;
     if (_matches == totalPairs) {
       final score = ((_matches / _attempts) * 100).round();
-      setState(() {
-        _roundComplete = true;
-        _finalScore = score;
-      });
       _saveResult(score);
+      _goToResults(score);
     }
+  }
+
+  void _goToResults(int score) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ResultsScreen(
+          level: widget.level,
+          score: score,
+          onPlayAgain: () {},
+          onHome: () {},
+        ),
+      ),
+    );
   }
 
   Future<void> _saveResult(int score) async {
