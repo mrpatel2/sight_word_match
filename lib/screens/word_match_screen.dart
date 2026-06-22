@@ -27,8 +27,6 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
   bool _isChecking = false;
   int _attempts = 0;
   int _matches = 0;
-  bool _roundComplete = false;
-  int _finalScore = 0;
 
   final ScoreStorageService _storageService = ScoreStorageService();
 
@@ -124,8 +122,6 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
       _isChecking = false;
       _attempts = 0;
       _matches = 0;
-      _roundComplete = false;
-      _finalScore = 0;
     });
   }
 
@@ -142,31 +138,7 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
               style: const TextStyle(fontSize: 16),
             ),
           ),
-          if (_roundComplete)
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.green[100],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    'Round complete! Score: $_finalScore',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: _playAgain,
-                    child: const Text('Play Again'),
-                  ),
-                ],
-              ),
-            ),
+          
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
