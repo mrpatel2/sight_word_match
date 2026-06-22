@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.bar_chart, color: Colors.white),
-            tooltip: 'My Stas',
+            tooltip: 'My Stats',
             onPressed: () {
               Navigator.push(
                 context,
