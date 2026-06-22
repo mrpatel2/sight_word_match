@@ -79,10 +79,23 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
   void _checkRoundComplete() {
     final totalPairs = _cards.length ~/ 2;
     if (_matches == totalPairs) {
-      final score = ((_matches / _attempts) * 100).round();
+      final score = _attempts == 0
+          ? 100
+          : ((_matches / _attempts) * 100).round();
       _saveResult(score);
       _goToResults(score);
     }
+  }
+
+  Future<void> _saveResult(int score) async {
+    await _storageService.saveResult(
+      GameResult(
+        gameType: 'Word Match',
+        level: widget.level,
+        score: score,
+        playedAt: DateTime.now(),
+      ),
+    );
   }
 
   void _goToResults(int score) {
@@ -100,17 +113,6 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
             Navigator.popUntil(context, (route) => route.isFirst);
           },
         ),
-      ),
-    );
-  }
-
-  Future<void> _saveResult(int score) async {
-    await _storageService.saveResult(
-      GameResult(
-        gameType: 'Word Match',
-        level: widget.level,
-        score: score,
-        playedAt: DateTime.now(),
       ),
     );
   }
@@ -138,7 +140,6 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
               style: const TextStyle(fontSize: 16),
             ),
           ),
-          
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
