@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ResultsScreen extends StatelessWidget {
+class ResultsScreen extends StatefulWidget {
   final String level;
   final int score;
   final VoidCallback onPlayAgain;
@@ -14,6 +14,13 @@ class ResultsScreen extends StatelessWidget {
     required this.onHome,
   });
 
+  @override
+  State<ResultsScreen> createState() => _ResultsScreenState();
+}
+
+class _ResultsScreenState extends State<ResultsScreen> {
+  bool _actionTaken = false;
+
   String _emojiForScore(int score) {
     if (score >= 90) return '🌟';
     if (score >= 70) return '👍';
@@ -24,6 +31,18 @@ class ResultsScreen extends StatelessWidget {
     if (score >= 90) return 'Excellent!';
     if (score >= 70) return 'Good job!';
     return 'Keep practicing!';
+  }
+
+  void _handlePlayAgain() {
+    if (_actionTaken) return;
+    _actionTaken = true;
+    widget.onPlayAgain();
+  }
+
+  void _handleHome() {
+    if (_actionTaken) return;
+    _actionTaken = true;
+    widget.onHome();
   }
 
   @override
@@ -38,17 +57,20 @@ class ResultsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  _emojiForScore(score),
+                  _emojiForScore(widget.score),
                   style: const TextStyle(fontSize: 64),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  _messageForScore(score),
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  _messageForScore(widget.score),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  '$score',
+                  '${widget.score}',
                   style: const TextStyle(
                     fontSize: 72,
                     fontWeight: FontWeight.bold,
@@ -56,12 +78,12 @@ class ResultsScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  level,
+                  widget.level,
                   style: const TextStyle(fontSize: 18, color: Colors.grey),
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton(
-                  onPressed: onPlayAgain,
+                  onPressed: _handlePlayAgain,
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(220, 56),
                     backgroundColor: const Color(0xFF845EF7),
@@ -73,8 +95,10 @@ class ResultsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 OutlinedButton(
-                  onPressed: onHome,
-                  style: OutlinedButton.styleFrom(minimumSize: const Size(220, 56)),
+                  onPressed: _handleHome,
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(220, 56),
+                  ),
                   child: const Text('Home', style: TextStyle(fontSize: 20)),
                 ),
               ],
