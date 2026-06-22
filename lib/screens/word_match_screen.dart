@@ -169,25 +169,46 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: card.isFaceUp
-                            ? Colors.white
-                            : const Color(0xFF845EF7),
+                        color: card.isMatched
+                            ? Colors.green[100]
+                            : (card.isFaceUp
+                                ? Colors.white
+                                : const Color(0xFF845EF7)),
                         border: Border.all(
-                          color: const Color(0xFF845EF7),
+                          color: card.isMatched
+                              ? Colors.green
+                              : const Color(0xFF845EF7),
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       alignment: Alignment.center,
                       child: card.isFaceUp
-                          ? Text(
-                              card.word,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF845EF7),
-                              ),
+                          ? Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Text(
+                                  card.word,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: card.isMatched
+                                        ? Colors.green[800]
+                                        : const Color(0xFF845EF7),
+                                  ),
+                                ),
+                                if (card.isMatched)
+                                  const Positioned(
+                                    top: 4,
+                                    right: 4,
+                                    child: Icon(
+                                      Icons.check_circle,
+                                      color: Colors.green,
+                                      size: 16,
+                                    ),
+                                  ),
+                              ],
                             )
                           : const Icon(
                               Icons.help_outline,
