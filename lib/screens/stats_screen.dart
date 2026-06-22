@@ -45,10 +45,48 @@ class _StatsScreenState extends State<StatsScreen> {
             );
           }
 
-          return Center(
-            child: Text(
-              'Total rounds played: ${results.length}',
-              style: const TextStyle(fontSize: 20),
+          final totalRounds = results.length;
+          final combinedScore =
+              results.fold<int>(0, (sum, r) => sum + r.score) / totalRounds;
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF845EF7),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Combined Score',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        combinedScore.round().toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 48,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '$totalRounds rounds played',
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         },
