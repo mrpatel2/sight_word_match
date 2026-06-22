@@ -32,6 +32,19 @@ class _StatsScreenState extends State<StatsScreen> {
 
           final results = snapshot.data ?? [];
 
+          if (results.isEmpty) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(24.0),
+                child: Text(
+                  'No games played yet!\nGo play a round to see your stats here.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            );
+          }
+
           return Center(
             child: Text(
               'Total rounds played: ${results.length}',
