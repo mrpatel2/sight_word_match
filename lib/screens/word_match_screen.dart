@@ -94,7 +94,10 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
         builder: (_) => ResultsScreen(
           level: widget.level,
           score: score,
-          onPlayAgain: () {},
+          onPlayAgain: () {
+            Navigator.pop(context);
+            _playAgain();
+          },
           onHome: () {},
         ),
       ),
