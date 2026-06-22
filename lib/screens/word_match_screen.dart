@@ -21,6 +21,9 @@ class _WordCardData {
 class _WordMatchScreenState extends State<WordMatchScreen> {
   late List<_WordCardData> _cards;
 
+  List<int> _flippedIndices = [];
+  bool _isChecking = false;
+
   @override
   void initState() {
     super.initState();
@@ -53,16 +56,40 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
             childAspectRatio: 1.0,
           ),
           itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFF845EF7),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              alignment: Alignment.center,
-              child: const Icon(
-                Icons.help_outline,
-                color: Colors.white,
-                size: 32,
+            final card = _cards[index];
+            return GestureDetector(
+              onTap: () {
+                if (_isChecking) return;
+                if (card.isMatched || card.isFaceUp) return;
+                if (_flippedIndices.length >= 2) return;
+
+                setState(() {
+                  card.isFaceUp = true;
+                  _flippedIndices.add(index);
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: card.isFaceUp ? Colors.white : const Color(0xFF845EF7),
+                  border: Border.all(color: const Color(0xFF845EF7), width: 2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: card.isFaceUp
+                    ? Text(
+                        card.word,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF845EF7),
+                        ),
+                      )
+                    : const Icon(
+                        Icons.help_outline,
+                        color: Colors.white,
+                        size: 32,
+                      ),
               ),
             );
           },
