@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../data/dolch_words.dart';
 import 'word_match_screen.dart';
+import 'stats_screen.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,6 +28,18 @@ class HomeScreen extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFF845EF7),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bar_chart, color: Colors.white),
+            tooltip: 'My Stas',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const StatsScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
