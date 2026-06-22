@@ -98,7 +98,9 @@ class _WordMatchScreenState extends State<WordMatchScreen> {
             Navigator.pop(context);
             _playAgain();
           },
-          onHome: () {},
+          onHome: () {
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
         ),
       ),
     );
