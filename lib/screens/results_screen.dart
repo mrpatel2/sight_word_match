@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class ResultsScreen extends StatelessWidget {
   final String level;
   final int score;
+  final VoidCallback onPlayAgain;
+  final VoidCallback onHome;
 
   const ResultsScreen({
     super.key,
     required this.level,
     required this.score,
+    required this.onPlayAgain,
+    required this.onHome,
   });
 
   String _emojiForScore(int score) {
@@ -54,6 +58,24 @@ class ResultsScreen extends StatelessWidget {
                 Text(
                   level,
                   style: const TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: onPlayAgain,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(220, 56),
+                    backgroundColor: const Color(0xFF845EF7),
+                  ),
+                  child: const Text(
+                    'Play Again',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: onHome,
+                  style: OutlinedButton.styleFrom(minimumSize: const Size(220, 56)),
+                  child: const Text('Home', style: TextStyle(fontSize: 20)),
                 ),
               ],
             ),
